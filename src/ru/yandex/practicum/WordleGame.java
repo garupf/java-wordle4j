@@ -5,6 +5,7 @@ import ru.yandex.practicum.Exception.InvalidWordLengthException;
 import ru.yandex.practicum.Exception.WordNotInDictionaryException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,12 +86,13 @@ public class WordleGame {
 
         for (int i = 0; i < length; i++) {
             if (guess.charAt(i) == answer.charAt(i)) {
+                result[i] = LetterResult.CORRECT;
                 used[i] = true;
             }
         }
 
         for (int i = 0; i < length; i++) {
-            if (result[i] == null) continue;
+            if (result[i] != null) continue;
 
             char c = guess.charAt(i);
             boolean found = false;
@@ -105,7 +107,7 @@ public class WordleGame {
                 }
             }
             if (!found) {
-                result[i] = LetterResult.PRESENT;
+                result[i] = LetterResult.ABSENT;
             }
         }
         return new GuessResult(guess, result);
@@ -113,7 +115,7 @@ public class WordleGame {
 
     public String suggestWord() {
         for (String guess : dictionary.getWords()) {
-            if (matchesHistory(String guess)) {
+            if (matchesHistory(guess)) {
                 return guess;
             }
 
@@ -121,14 +123,64 @@ public class WordleGame {
         return null;
     }
 
-    private boolean matchesHistory(String guess) {
-        for (int i = 0; i < guess.length(); i++) {
+    private boolean matchesHistory(String word) {
+
+        for (int i = 0; i < guesses.size(); i++) {
 
             String guess = guesses.get(i);
-            GuessResult result = results.get(i);
+            GuessResult expected = results.get(i);
 
-            GuessResult test = analyzeGuessForWord
+            GuessResult simulated =
+                    analyzeGuessForWord(word, guess);
+
+            if (!Arrays.equals(
+                    simulated.getResult(),
+                    expected.getResult()
+            )) {
+                return false;
+            }
         }
+
+        return true;
+    }
+
+    private GuessResult analyzeGuessForWord(String answerCandidate, String guess) {
+
+        int length = answerCandidate.length();
+
+        LetterResult[] result = new LetterResult[length];
+        boolean[] used = new boolean[length];
+
+        for (int i = 0; i < length; i++) {
+            if (guess.charAt(i) == answerCandidate.charAt(i)) {
+                result[i] = LetterResult.CORRECT;
+                used[i] = true;
+            }
+        }
+
+        for (int i = 0; i < length; i++) {
+
+            if (result[i] != null) continue;
+
+            char c = guess.charAt(i);
+            boolean found = false;
+
+            for (int j = 0; j < length; j++) {
+
+                if (!used[j] && c == answerCandidate.charAt(j)) {
+                    result[i] = LetterResult.PRESENT;
+                    used[j] = true;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                result[i] = LetterResult.ABSENT;
+            }
+        }
+
+        return new GuessResult(guess, result);
     }
 
     public boolean isWin() {

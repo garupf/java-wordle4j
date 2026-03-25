@@ -15,6 +15,10 @@ import java.util.List;
  */
 public class WordleDictionaryLoader {
 
+    public WordleDictionaryLoader() {
+
+    }
+
     public WordleDictionary load(String filePath) throws IOException {
         List<String> words = Files.readAllLines(Path.of("words_ru.txt"), StandardCharsets.UTF_8);
         return new WordleDictionary(words);
