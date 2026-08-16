@@ -7,7 +7,6 @@ import ru.yandex.practicum.Exception.WordNotInDictionaryException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 /*
 в этом классе хранится словарь и состояние игры
@@ -44,15 +43,23 @@ public class WordleGame {
     public static class GuessResult {
         private final String guess;
         private final LetterResult[] result;
+
         public GuessResult(String guess, LetterResult[] result) {
             this.guess = guess;
             this.result = result;
         }
+
         public String getGuess() {
             return guess;
         }
+
         public LetterResult[] getResult() {
             return result;
+        }
+
+        @Override
+        public String toString() {
+            return guess + " " + Arrays.toString(result);
         }
     }
 
@@ -81,7 +88,7 @@ public class WordleGame {
 
     private GuessResult analyzeGuess(String guess) {
         int length = answer.length();
-        LetterResult[] result =  new LetterResult[length];
+        LetterResult[] result = new LetterResult[length];
         boolean[] used = new boolean[length];
 
         for (int i = 0; i < length; i++) {
@@ -189,5 +196,13 @@ public class WordleGame {
 
     public boolean isGameOver() {
         return isWin() || currentStep >= maxSteps;
+    }
+
+    public String getSecretWord() {
+        return answer;
+    }
+
+    public List<GuessResult> getGameState() {
+        return results;
     }
 }

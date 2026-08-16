@@ -15,6 +15,7 @@ import java.util.logging.SimpleFormatter;
     вызвать игровой метод в котором в цикле опрашивать пользователя и передавать информацию в игру
     вывести состояние игры и конечный результат
  */
+@SuppressWarnings("ALL")
 public class Wordle {
 
     private static final Logger logger = Logger.getLogger(Wordle.class.getName());
@@ -37,8 +38,11 @@ public class Wordle {
             return;
         }
 
+        String answer = dictionary.getRandomWord();
+        int steps = 6;
+
         // 3. Создаём игру
-        WordleGame game = new WordleGame(dictionary, logger);
+        WordleGame game = new WordleGame(answer, steps, dictionary);
 
         // 4. Запускаем игровой цикл
         runGameLoop(game);

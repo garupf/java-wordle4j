@@ -13,6 +13,7 @@ public class WordleDictionary {
     private List<String> words; // список всех слов словаря
 
     public WordleDictionary(List<String> words) {
+        this.words = words;
     }
 
     public int size() { //количество слов
