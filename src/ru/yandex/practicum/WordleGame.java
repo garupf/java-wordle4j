@@ -65,6 +65,9 @@ public class WordleGame {
 
     public GuessResult makeGuess(String guess) {
 
+        guess = guess.toLowerCase();
+        guess = guess.replace("ё", "е");
+
         if (isGameOver()) {
             throw new GameOverException();
         }
