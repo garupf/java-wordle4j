@@ -1,8 +1,10 @@
 package ru.yandex.practicum;
 
+import jdk.jshell.spi.ExecutionControl;
 import ru.yandex.practicum.Exception.GameOverException;
 import ru.yandex.practicum.Exception.WordleException;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
@@ -73,6 +75,12 @@ public class Wordle {
             System.out.println("Введите слово:");
 
             String input = scanner.nextLine();
+
+            if (input.isEmpty()) {
+                String result = game.suggestWord();
+                System.out.println(result);
+                continue;
+                }
 
             try {
                 game.makeGuess(input);

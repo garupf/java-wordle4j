@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static ru.yandex.practicum.LetterResult.*;
+
 /*
 в этом классе хранится словарь и состояние игры
     текущий шаг
@@ -23,13 +25,13 @@ import java.util.List;
 public class WordleGame {
 
     private final String answer;
-    private WordleDictionary dictionary;
+    private final WordleDictionary dictionary;
 
-    private int maxSteps;
+    private final int maxSteps;
     private int currentStep;
 
-    private List<String> guesses;
-    private List<GuessResult> results;
+    private final List<String> guesses;
+    private final List<GuessResult> results;
 
     public WordleGame(String answer, int steps, WordleDictionary dictionary) {
         this.answer = answer;
@@ -59,7 +61,16 @@ public class WordleGame {
 
         @Override
         public String toString() {
-            return guess + " " + Arrays.toString(result);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (LetterResult letterResult : result) {
+                if (letterResult == LetterResult.CORRECT){
+                    stringBuilder.append('+');
+                } else if (letterResult == LetterResult.PRESENT){
+                    stringBuilder.append('^');
+                } else if (letterResult == LetterResult.ABSENT)
+                    stringBuilder.append('-');
+            }
+            return guess + " " + stringBuilder;
         }
     }
 
@@ -96,7 +107,7 @@ public class WordleGame {
 
         for (int i = 0; i < length; i++) {
             if (guess.charAt(i) == answer.charAt(i)) {
-                result[i] = LetterResult.CORRECT;
+                result[i] = CORRECT;
                 used[i] = true;
             }
         }
@@ -163,7 +174,7 @@ public class WordleGame {
 
         for (int i = 0; i < length; i++) {
             if (guess.charAt(i) == answerCandidate.charAt(i)) {
-                result[i] = LetterResult.CORRECT;
+                result[i] = CORRECT;
                 used[i] = true;
             }
         }
