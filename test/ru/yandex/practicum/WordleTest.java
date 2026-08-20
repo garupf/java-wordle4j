@@ -120,4 +120,43 @@ class WordleTest {
         assertNull(result);
     }
 
+    @Test
+    void shouldReturnGameState () {
+        List<String> words = List.of("паста", "табор", "банан");
+        WordleDictionary dictionary = new WordleDictionary(words);
+        WordleGame game = new WordleGame("паста", 6, dictionary);
+
+        game.makeGuess("табор");
+        game.makeGuess("паста");
+
+        List<WordleGame.GuessResult> state = game.getGameState();
+
+        assertEquals(2, state.size());
+        assertEquals(state.get(0).getGuess(), "табор");
+        assertEquals(state.get(1).getGuess(), "паста");
+    }
+
+    @Test
+    void shouldContainsWordInDictionary () {
+        List<String> words = List.of("паста", "табор", "банан");
+        WordleDictionary dictionary = new WordleDictionary(words);
+
+        assertTrue(dictionary.contains("паста"));
+        assertFalse(dictionary.contains("топот"));
+    }
+
+    @Test
+    void shouldReturnDictionarySize() {
+        List<String> words = List.of("паста", "табор", "банан");
+        WordleDictionary dictionary = new WordleDictionary(words);
+        assertEquals(3, dictionary.size());
+    }
+
+    @Test
+    void shouldReturnRandomWord() {
+        List<String> words = List.of("паста", "табор", "банан");
+        WordleDictionary dictionary = new WordleDictionary(words);
+        String result = dictionary.getRandomWord();;
+        assertTrue(words.contains(result));
+    }
 }
