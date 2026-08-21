@@ -63,9 +63,9 @@ public class WordleGame {
         public String toString() {
             StringBuilder stringBuilder = new StringBuilder();
             for (LetterResult letterResult : result) {
-                if (letterResult == LetterResult.CORRECT){
+                if (letterResult == LetterResult.CORRECT) {
                     stringBuilder.append('+');
-                } else if (letterResult == LetterResult.PRESENT){
+                } else if (letterResult == LetterResult.PRESENT) {
                     stringBuilder.append('^');
                 } else if (letterResult == LetterResult.ABSENT)
                     stringBuilder.append('-');
