@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /*
 этот класс содержит в себе всю рутину по работе с файлами словарей и с кодировками
     ему нужны методы по загрузке списка слов из файла по имени файла
@@ -19,12 +20,14 @@ public class WordleDictionaryLoader {
     }
 
     public WordleDictionary load(String filePath) throws IOException {
-        List<String> words = Files.readAllLines(Path.of("words_ru.txt"), StandardCharsets.UTF_8);
+        List<String> words = Files.readAllLines(Path.of(filePath), StandardCharsets.UTF_8);
 
         List<String> fiveLetterWords = new ArrayList<>();
 
         for (String word : words) {
             if (word.length() == 5) {
+                word = word.toLowerCase();
+                word = word.replace('ё', 'е');
                 fiveLetterWords.add(word);
             }
         }

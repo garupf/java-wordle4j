@@ -1,5 +1,9 @@
 package ru.yandex.practicum;
 
+import ru.yandex.practicum.Exception.GameOverException;
+import ru.yandex.practicum.Exception.WordleException;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
@@ -31,7 +35,7 @@ public class Wordle {
         // 2. Загружаем словарь
         WordleDictionary dictionary;
         try {
-            dictionary = loader.load("words.txt");
+            dictionary = loader.load("words_ru.txt");
         } catch (IOException e) {
             logger.severe("Ошибка загрузки словаря: " + e.getMessage());
             System.out.println("Не удалось загрузить словарь.");
@@ -71,9 +75,18 @@ public class Wordle {
 
             String input = scanner.nextLine();
 
+            if (input.isEmpty()) {
+                String result = game.suggestWord();
+                System.out.println(result);
+                continue;
+                }
+
             try {
                 game.makeGuess(input);
-            } catch (IllegalArgumentException e) {
+            } catch (GameOverException e) {
+                System.out.println(e.getMessage());
+                break;
+            } catch (WordleException e) {
                 System.out.println("Ошибка: " + e.getMessage());
                 continue;
             }
