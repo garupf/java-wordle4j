@@ -1,6 +1,5 @@
 package ru.yandex.practicum;
 
-import jdk.jshell.spi.ExecutionControl;
 import ru.yandex.practicum.Exception.GameOverException;
 import ru.yandex.practicum.Exception.WordleException;
 
